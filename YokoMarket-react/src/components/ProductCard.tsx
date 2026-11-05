@@ -1,14 +1,13 @@
 /* =========================================================
    ProductCard.tsx — TARJETA DE PRODUCTO
-   Reemplaza a crearTarjeta() de productos.js y al botón de
-   favorito de interacciones.js. Se usa en el inicio, el
-   catálogo y la búsqueda. Mismas clases y mismo orden de
-   etiquetas que el original (style.css).
+   Reemplaza a crearTarjeta() de productos.js del original.
+   Se usa en el inicio, el catálogo y la búsqueda. Mismas
+   clases y mismo orden de etiquetas que el original (style.css).
    ========================================================= */
 
-import { useState } from 'react'
 import { Link } from 'react-router'
 
+import BotonFavorito from './BotonFavorito'
 import ImagenProducto from './ImagenProducto'
 import type { Producto } from '../data/productos'
 import { precioTexto } from '../utils/formato'
@@ -19,11 +18,6 @@ interface ProductCardProps {
 }
 
 function ProductCard({ producto }: ProductCardProps) {
-  /* ¿Está en favoritos? Por ahora el corazón solo recuerda su estado
-     mientras la página está abierta. Guardarlo en localStorage y
-     compartirlo entre tarjetas es parte de mi compañero (favoritos). */
-  const [favorito, setFavorito] = useState(false)
-
   return (
     <article className="tarjeta-producto">
       {/* Toda la tarjeta lleva al detalle: /producto/3 */}
@@ -48,17 +42,8 @@ function ProductCard({ producto }: ProductCardProps) {
         </div>
       </Link>
 
-      {/* Botón de favorito: ♡ vacío / ♥ lleno. El CSS lo pinta de rojo
-          cuando aria-pressed es "true". */}
-      <button
-        className="boton-favorito"
-        type="button"
-        aria-pressed={favorito}
-        aria-label={favorito ? 'Quitar de favoritos' : 'Guardar en favoritos'}
-        onClick={() => setFavorito(!favorito)}
-      >
-        {favorito ? '♥' : '♡'}
-      </button>
+      {/* El corazón va fuera del enlace para que al pulsarlo no abra el detalle. */}
+      <BotonFavorito />
     </article>
   )
 }

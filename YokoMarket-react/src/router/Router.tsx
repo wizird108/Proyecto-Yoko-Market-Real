@@ -15,6 +15,7 @@ import Main from '../layout/Main/Main'
 import Home from '../pages/home/Home'
 import Catalogo from '../pages/catalogo/Catalogo'
 import Ayuda from '../pages/ayuda/Ayuda'
+import Producto from '../pages/producto/Producto'
 import Pendiente from '../pages/pendiente/Pendiente'
 
 const router = createBrowserRouter([
@@ -48,8 +49,8 @@ const router = createBrowserRouter([
       // Ayuda (página nueva: en el original el botón solo mostraba un aviso)
       { path: 'ayuda', Component: Ayuda },
 
-      // Detalle (commit 5). ":id" es un parámetro: /producto/3 → id = "3"
-      { path: 'producto/:id', element: <Pendiente nombre="Producto" /> },
+      // Detalle. ":id" es un parámetro: /producto/3 → id = "3"
+      { path: 'producto/:id', Component: Producto },
 
       // Cuentas e interacciones (parte de mi compañero)
       { path: 'login', element: <Pendiente nombre="Login" /> },

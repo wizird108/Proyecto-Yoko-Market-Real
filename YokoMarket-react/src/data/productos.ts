@@ -31,6 +31,11 @@ export interface Producto {
   ubicacion: string
   descripcion: string
   resenas: Resena[]
+  // Solo en publicaciones de usuarios (las crea la página Publicar):
+  fotos?: string[] // varias fotos; el detalle muestra botones "Foto 1, 2, 3"
+  talla?: string // la talla que eligió quien publicó
+  vendedor?: string // "@nombre" de quien publicó
+  usuarioId?: string // id de la cuenta que publicó
 }
 
 /* 2. DATOS BASE (precios en USD, como en la tienda oficial).
