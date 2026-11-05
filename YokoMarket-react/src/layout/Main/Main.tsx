@@ -7,7 +7,8 @@
    coloca la página que corresponde a la URL (S10).
 
    Además reemplaza a main.js del original: decide qué hace cada
-   botón del Header y del Footer, y muestra los mensajes de aviso.
+   botón del Header y del Footer, abre el panel de búsqueda y
+   muestra los mensajes de aviso.
    ========================================================= */
 
 import { useEffect, useState } from 'react'
@@ -15,6 +16,13 @@ import { Outlet, ScrollRestoration, useLocation, useNavigate } from 'react-route
 
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
+import PanelBusqueda from '../../components/PanelBusqueda'
+
+/* Lo que el layout comparte con las páginas a través del <Outlet />.
+   Una página lo lee con: const { mostrarMensaje } = useOutletContext<ContextoMain>() */
+export interface ContextoMain {
+  mostrarMensaje: (texto: string) => void
+}
 
 /* En el original, sistema.css solo se cargaba en estas páginas.
    Ver el comentario al inicio de src/styles/sistema.css. */
@@ -24,7 +32,8 @@ function Main() {
   const navigate = useNavigate() // sirve para cambiar de página desde código
   const location = useLocation() // dice en qué URL estamos (location.pathname)
 
-  /* Texto del aviso de abajo. Vacío ('') = aviso oculto. */
+  /* ---------- AVISOS ----------
+     Texto del aviso de abajo. Vacío ('') = aviso oculto. */
   const [mensaje, setMensaje] = useState('')
 
   /* useEffect (S9): cada vez que aparece un mensaje, programamos
@@ -36,16 +45,35 @@ function Main() {
     return () => clearTimeout(temporizador)
   }, [mensaje])
 
-  /* Qué hace cada botón del Header y del Footer.
+  /* ---------- PANEL DE BÚSQUEDA ----------
+     Guardamos en qué página se abrió el panel. Si el usuario cambia
+     de página (por ejemplo, hace clic en un producto), la ruta ya no
+     coincide y el panel se cierra solo.
+     La ruta /busqueda abre el panel al entrar (como busqueda.html). */
+  const [rutaPanel, setRutaPanel] = useState(location.pathname === '/busqueda' ? '/busqueda' : '')
+  const busquedaAbierta = rutaPanel === location.pathname
+
+  function abrirBusqueda() {
+    setRutaPanel(location.pathname)
+  }
+
+  function cerrarBusqueda() {
+    setRutaPanel('')
+  }
+
+  /* ---------- BOTONES DEL HEADER Y DEL FOOTER ----------
      Es la misma lista de casos que tenía main.js. */
   function manejarAccion(accion: string) {
-    if (accion === 'perfil' || accion === 'wishlist') {
+    if (accion === 'buscar') {
+      abrirBusqueda()
+    } else if (accion === 'perfil' || accion === 'wishlist') {
       navigate('/perfil')
     } else if (accion === 'vender') {
       navigate('/publicar')
+    } else if (accion === 'ayuda') {
+      navigate('/ayuda')
     } else {
-      // buscar y carrito abrirán sus paneles en próximos commits
-      // (búsqueda: commit 4; bolsa: parte de mi compañero).
+      // carrito: el panel de la bolsa es parte de mi compañero.
       setMensaje('Esta sección todavía no forma parte de la entrega.')
     }
   }
@@ -54,12 +82,16 @@ function Main() {
      "pagina-cuenta" y se activan los estilos de sistema.css. */
   const esPaginaDeCuenta = paginasDeCuenta.includes(location.pathname)
 
+  /* Lo que compartimos con las páginas (ver ContextoMain arriba). */
+  const contexto: ContextoMain = { mostrarMensaje: setMensaje }
+
   return (
     <div className={esPaginaDeCuenta ? 'pagina-cuenta' : undefined}>
       <Header onAccion={manejarAccion} />
 
       <main id="contenido">
-        <Outlet />
+        {/* context: datos que cualquier página puede leer con useOutletContext */}
+        <Outlet context={contexto} />
       </main>
 
       <Footer onAccion={manejarAccion} />
@@ -69,6 +101,8 @@ function Main() {
       <p className="mensaje-interaccion" hidden={mensaje === ''} role="status">
         {mensaje}
       </p>
+
+      <PanelBusqueda abierto={busquedaAbierta} onCerrar={cerrarBusqueda} />
 
       {/* Al cambiar de página, vuelve arriba (como al abrir un HTML nuevo). */}
       <ScrollRestoration />

@@ -96,3 +96,30 @@ export const productos: Producto[] = productosBase.map((base) => {
 export function leerPublicaciones(): Producto[] {
   return leerDatos<Producto[]>('yoko-publicaciones', [])
 }
+
+/* 5. TODOS LOS PRODUCTOS (oficiales + publicaciones)
+   Igual que PRODUCTOS del original: una sola lista para buscar.
+   [...a, ...b] crea un arreglo nuevo con los elementos de ambos. */
+export function todosLosProductos(): Producto[] {
+  return [...productos, ...leerPublicaciones()]
+}
+
+/* 6. BUSCAR UN PRODUCTO POR SU ID
+   .find() (S3) devuelve el primer producto que cumple la condición,
+   o undefined si no hay ninguno. Usamos String() porque el id de la
+   URL ("3") es texto y el de los datos (3) es número. */
+export function buscarProducto(id: number | string): Producto | undefined {
+  return todosLosProductos().find((producto) => String(producto.id) === String(id))
+}
+
+/* 7. CONFIGURACIÓN DE CADA CATÁLOGO (igual que CATALOGOS del original)
+   Record<string, ...> (S6) es un objeto cuyas claves son textos
+   ("ropa", "peluches"...) y cuyos valores tienen esta forma. */
+export const CATALOGOS: Record<string, { titulo: string; subtitulo: string; color: string }> = {
+  ropa: { titulo: 'ROPA', subtitulo: 'Oversize, gráficos y básicos', color: '#2266c9' },
+  peluches: { titulo: 'PELUCHES', subtitulo: 'Coco y amigos de Felicilandia', color: '#e85d75' },
+  sale: { titulo: 'SALE', subtitulo: 'Últimas unidades, precios felices', color: '#e5372b' },
+  vinilos: { titulo: 'VINILOS', subtitulo: '', color: '#2266c9' },
+  // accesorios era azul en el original; ahora dorado, el color de su banner
+  accesorios: { titulo: 'ACCESORIOS', subtitulo: '', color: '#b37d00' },
+}

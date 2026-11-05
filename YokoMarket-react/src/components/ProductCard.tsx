@@ -9,9 +9,9 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
 
+import ImagenProducto from './ImagenProducto'
 import type { Producto } from '../data/productos'
 import { precioTexto } from '../utils/formato'
-import fotoPendiente from '../assets/images/foto-pendiente.svg'
 
 /* Props: la tarjeta recibe el producto que debe mostrar. */
 interface ProductCardProps {
@@ -24,22 +24,11 @@ function ProductCard({ producto }: ProductCardProps) {
      compartirlo entre tarjetas es parte de mi compañero (favoritos). */
   const [favorito, setFavorito] = useState(false)
 
-  /* Si la foto no carga, mostramos la imagen "pendiente". */
-  const [imagenFallida, setImagenFallida] = useState(false)
-  const imagen = producto.imagen && !imagenFallida ? producto.imagen : fotoPendiente
-
   return (
     <article className="tarjeta-producto">
       {/* Toda la tarjeta lleva al detalle: /producto/3 */}
       <Link className="enlace-producto" to={`/producto/${producto.id}`}>
-        <img
-          className="imagen-producto"
-          src={imagen}
-          alt={producto.nombre}
-          width={300}
-          height={300}
-          onError={() => setImagenFallida(true)}
-        />
+        <ImagenProducto producto={producto} />
 
         <div className="info-producto">
           {/* && = "si lo de la izquierda es verdadero, muestra lo de la derecha" */}

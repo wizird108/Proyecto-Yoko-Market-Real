@@ -6,8 +6,17 @@
 
 import { Link } from 'react-router'
 
+/* Redes sociales. En el original solo mostraban un aviso; ahora
+   abren el perfil en otra pestaña (la rúbrica pide que todos los
+   botones funcionen). Si un enlace cambia, se corrige solo aquí. */
+const redes = [
+  { texto: 'Instagram', url: 'https://www.instagram.com/alvarodiaz/' },
+  { texto: 'TikTok', url: 'https://www.tiktok.com/@alvarodiaz' },
+  { texto: 'X / Twitter', url: 'https://x.com/alvarodiaz' },
+]
+
 /* Igual que el Header, recibe onAccion para avisar al layout
-   cuando se pulsa un botón (Vender, Mi perfil, Wishlist...). */
+   cuando se pulsa un botón (Vender, Mi perfil, Wishlist, Ayuda). */
 interface FooterProps {
   onAccion: (accion: string) => void
 }
@@ -48,18 +57,16 @@ function Footer({ onAccion }: FooterProps) {
         </button>
       </nav>
 
-      {/* Columna 4: redes sociales (en el original solo muestran un aviso) */}
+      {/* Columna 4: redes sociales.
+          target="_blank" abre otra pestaña; rel="noreferrer" es una
+          medida de seguridad recomendada para enlaces externos. */}
       <nav aria-label="Síguenos">
         <h2>SÍGUENOS</h2>
-        <button type="button" onClick={() => onAccion('instagram')}>
-          Instagram
-        </button>
-        <button type="button" onClick={() => onAccion('tiktok')}>
-          TikTok
-        </button>
-        <button type="button" onClick={() => onAccion('twitter')}>
-          X / Twitter
-        </button>
+        {redes.map((red) => (
+          <a key={red.texto} href={red.url} target="_blank" rel="noreferrer">
+            {red.texto}
+          </a>
+        ))}
       </nav>
     </footer>
   )
