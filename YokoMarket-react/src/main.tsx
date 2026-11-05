@@ -16,7 +16,8 @@ import { RouterProvider } from 'react-router'
    El orden importa: si dos reglas pesan igual, gana la última. */
 import './styles/style.css' // base: fuentes, header, tarjetas, home, catálogo...
 import './styles/sistema.css' // formularios y páginas de cuenta
-import './styles/ajustes.css' // correcciones finales: siempre de último
+import './styles/ajustes.css' // correcciones finales del original
+import './styles/cambios.css' // cambios nuevos de la versión React (va de último)
 
 import router from './router/Router.tsx'
 

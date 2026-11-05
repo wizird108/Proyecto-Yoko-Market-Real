@@ -12,6 +12,7 @@
 import { createBrowserRouter, Navigate } from 'react-router'
 
 import Main from '../layout/Main/Main'
+import Home from '../pages/home/Home'
 import Pendiente from '../pages/pendiente/Pendiente'
 
 const router = createBrowserRouter([
@@ -21,9 +22,9 @@ const router = createBrowserRouter([
     Component: Main,
 
     // Rutas hijas: se dibujan dentro del <Outlet /> de Main.
-    // Por ahora todas muestran la página temporal "Pendiente".
+    // Las que todavía no están hechas muestran la página temporal "Pendiente".
     children: [
-      { index: true, element: <Pendiente nombre="Inicio" /> }, // index = la URL "/"
+      { index: true, Component: Home }, // index = la URL "/"
 
       // Catálogo (commit 4)
       { path: 'ropa', element: <Pendiente nombre="Ropa" /> },

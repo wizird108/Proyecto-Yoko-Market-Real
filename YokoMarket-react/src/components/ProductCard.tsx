@@ -1,75 +1,66 @@
+/* =========================================================
+   ProductCard.tsx — TARJETA DE PRODUCTO
+   Reemplaza a crearTarjeta() de productos.js y al botón de
+   favorito de interacciones.js. Se usa en el inicio, el
+   catálogo y la búsqueda. Mismas clases y mismo orden de
+   etiquetas que el original (style.css).
+   ========================================================= */
+
 import { useState } from 'react'
+import { Link } from 'react-router'
 
-/* TARJETA DE PRODUCTO DE YOKOMARKET
-   Migrada de crearTarjeta() en productos.js + crearBotonFavorito() en
-   interacciones.js + estilos de style.css y ajustes.css.
-   Mismas clases, mismo orden de etiquetas y mismo formato de precio. */
+import type { Producto } from '../data/productos'
+import { precioTexto } from '../utils/formato'
+import fotoPendiente from '../assets/images/foto-pendiente.svg'
 
-/* Forma de un producto, igual que los objetos de datos.js. */
-export interface Producto {
-  id: number | string
-  nombre: string
-  precio: number
-  imagen?: string
-  oficial?: boolean
-  preventa?: boolean
-  oferta?: boolean
-  precioAnterior?: number
-}
-
+/* Props: la tarjeta recibe el producto que debe mostrar. */
 interface ProductCardProps {
   producto: Producto
-  /* Opcional: enlace al detalle. Por defecto replica producto.html?id=... */
-  href?: string
 }
 
-/* Equivale a precioTexto(): "COP $45.000" */
-function precioTexto(precio: number) {
-  return 'COP $' + Number(precio).toLocaleString('es-CO')
-}
-
-/* Equivale a foto-pendiente.svg: cuadro gris cuando no hay foto o falla. */
-const FOTO_PENDIENTE =
-  "data:image/svg+xml;utf8," +
-  encodeURIComponent(
-    '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><rect width="300" height="300" fill="#eee8df"/></svg>',
-  )
-
-function ProductCard({ producto, href }: ProductCardProps) {
-  /* Reemplaza el localStorage "yoko-favoritos" del original por estado local.
-     Más adelante se puede subir a un contexto compartido. */
+function ProductCard({ producto }: ProductCardProps) {
+  /* ¿Está en favoritos? Por ahora el corazón solo recuerda su estado
+     mientras la página está abierta. Guardarlo en localStorage y
+     compartirlo entre tarjetas es parte de mi compañero (favoritos). */
   const [favorito, setFavorito] = useState(false)
-  const [imagenFallida, setImagenFallida] = useState(false)
 
-  const origen = !imagenFallida && producto.imagen ? producto.imagen : FOTO_PENDIENTE
+  /* Si la foto no carga, mostramos la imagen "pendiente". */
+  const [imagenFallida, setImagenFallida] = useState(false)
+  const imagen = producto.imagen && !imagenFallida ? producto.imagen : fotoPendiente
 
   return (
     <article className="tarjeta-producto">
-      <a className="enlace-producto" href={href ?? `/producto?id=${producto.id}`}>
+      {/* Toda la tarjeta lleva al detalle: /producto/3 */}
+      <Link className="enlace-producto" to={`/producto/${producto.id}`}>
         <img
           className="imagen-producto"
-          src={origen}
+          src={imagen}
           alt={producto.nombre}
           width={300}
           height={300}
           onError={() => setImagenFallida(true)}
         />
+
         <div className="info-producto">
+          {/* && = "si lo de la izquierda es verdadero, muestra lo de la derecha" */}
           {producto.preventa && <span className="etiqueta-producto">PREVENTA</span>}
+          {/* operador ternario: condición ? si es verdad : si es falso */}
           <span className="etiqueta-producto">{producto.oficial ? 'OFICIAL' : 'USUARIO'}</span>
           <h3 className="nombre-producto">{producto.nombre}</h3>
           <p className="precio">{precioTexto(producto.precio)}</p>
-          {producto.oferta && (
+
+          {/* Si está en oferta: precio anterior tachado (<del>) y etiqueta SALE */}
+          {producto.oferta && producto.precioAnterior !== null && (
             <>
-              {producto.precioAnterior !== undefined && (
-                <del className="precio-anterior">{precioTexto(producto.precioAnterior)}</del>
-              )}
+              <del className="precio-anterior">{precioTexto(producto.precioAnterior)}</del>
               <span className="etiqueta-producto">SALE</span>
             </>
           )}
         </div>
-      </a>
+      </Link>
 
+      {/* Botón de favorito: ♡ vacío / ♥ lleno. El CSS lo pinta de rojo
+          cuando aria-pressed es "true". */}
       <button
         className="boton-favorito"
         type="button"
