@@ -1,0 +1,1265 @@
+/* =========================================================
+   style.css — ESTILOS BASE DE YOKOMARKET
+   Copiado sin cambios del proyecto original (src/css/style.css).
+   Tiene las fuentes, el header, el footer, las tarjetas,
+   el home, el catálogo, el detalle y el responsive general.
+
+   Las rutas url('../assets/...') siguen funcionando porque
+   en React las carpetas quedaron igual que en el original:
+     src/styles/style.css  →  src/assets/fonts/...
+   Vite encuentra esos archivos y los incluye al compilar.
+
+   Se carga PRIMERO (ver main.tsx).
+   ========================================================= */
+
+/* 1. FUENTES LOCALES: Anton en logos y títulos; Inter en el resto.
+   @font-face permite usar los archivos incluidos sin conexión externa. */
+@font-face {
+  font-family: Anton;
+  src: url('../assets/fonts/Anton-400.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Inter;
+  src: url('../assets/fonts/Inter-400.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Inter;
+  src: url('../assets/fonts/Inter-500.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Inter;
+  src: url('../assets/fonts/Inter-600.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Inter;
+  src: url('../assets/fonts/Inter-700.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+
+/* 2. BASE: border-box incluye padding/borde en el ancho declarado.
+   El lienzo final mide 1440px: lo centramos sin estirarlo en monitores mayores. */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 1440px;
+  background: #faf7f2;
+  color: #211d1a;
+  font-family: Inter, Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+button,
+select,
+input {
+  font: inherit;
+}
+
+button,
+a,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+h1,
+.titulo-seccion,
+.logo,
+.resenas>h2,
+.texto-banner h2,
+.filtros-catalogo h2 {
+  font-family: Anton, Impact, sans-serif;
+  font-weight: 400;
+}
+
+:focus-visible {
+  outline: 3px solid #2266c9;
+  outline-offset: 4px;
+}
+
+/* Oculta texto visualmente, conservándolo para tecnologías de asistencia. */
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 3. HEADER COMPARTIDO: componente final 1440 × 80, padding 64.
+   Flexbox distribuye logo, navegación y acciones en una sola fila. */
+.encabezado {
+  min-height: 80px;
+  padding: 0 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: #fff;
+}
+
+.logo {
+  font-size: 28px;
+  white-space: nowrap;
+}
+
+.navegacion {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.enlace-sale {
+  color: #e5372b;
+  font-weight: 700;
+}
+
+.acciones-header {
+  width: 326px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.acciones-header button {
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #211d1a;
+}
+
+.acciones-header button:nth-child(1) {
+  width: 86px;
+}
+
+.acciones-header button:nth-child(2) {
+  width: 96px;
+}
+
+.acciones-header button:nth-child(3) {
+  width: 76px;
+}
+
+/* Los SVG conservan su tamaño nativo de 18px. */
+.acciones-header img {
+  flex: none;
+}
+
+.boton-menu {
+  display: none;
+}
+
+/* 4. HERO FINAL: fondo fotográfico con azul y opacidad 0.34.
+   ::before separa el fondo del texto, para no aplicar opacidad al contenido. */
+.hero-home {
+  min-height: 430px;
+  padding: 76px 96px 38px;
+  position: relative;
+  background: #2266c9;
+  color: #fdf6ec;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.hero-home::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../assets/images/hero-sayonara.jpg') center / cover no-repeat;
+  opacity: .34;
+}
+
+.hero-home>* {
+  position: relative;
+}
+
+.presentacion {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.hero-home h1 {
+  font-size: 66px;
+  line-height: 64px;
+}
+
+.hero-home>p:not(.presentacion) {
+  font-size: 16px;
+}
+
+.boton-coleccion {
+  width: 190px;
+  min-height: 52px;
+  border-radius: 26px;
+  background: #fdf6ec;
+  color: #211d1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* 5. SECCIONES HOME: las tres franjas de 595px de la referencia final.
+   Grid organiza cuatro tarjetas con 24px de separación. */
+.seccion-home {
+  min-height: 595px;
+  padding: 30px 80px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 26px;
+}
+
+.titulo-seccion {
+  font-size: 38px;
+}
+
+.grilla-productos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.grilla-home {
+  gap: 24px;
+}
+
+/* 6. CARD REUTILIZABLE: fondo blanco, borde crema, imagen cuadrada.
+   object-fit:cover respeta el recorte original; aspect-ratio conserva la forma. */
+.tarjeta-producto {
+  min-width: 0;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #ded7cf;
+  border-radius: 14px;
+}
+
+.enlace-producto {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.imagen-producto {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.grilla-home .tarjeta-producto {
+  min-height: 430px;
+}
+
+.info-producto {
+  padding: 10px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.etiqueta-producto {
+  background: #2e8b57;
+  color: #fdf6ec;
+  font-size: 9px;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 4px 8px;
+}
+
+.etiqueta-sale {
+  background: #e5372b;
+}
+
+.nombre-producto {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.precio {
+  color: #b37d00;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* 7. FOOTER FINAL: cuatro columnas, 338px de alto y padding 80/60.
+   El contenido se define solamente en componentes.js. */
+.pie-pagina {
+  min-height: 338px;
+  padding: 60px 80px 40px;
+  background: #2e8b57;
+  color: #fdf6ec;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.pie-pagina .logo {
+  font-size: 30px;
+}
+
+.lema {
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.pie-pagina nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.pie-pagina h2 {
+  margin-bottom: 12px;
+  font-family: Inter, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.pie-pagina a,
+.pie-pagina button {
+  font-size: 13px;
+  line-height: 26px;
+}
+
+.pie-pagina button {
+  border: 0;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+}
+
+/* 8. BANNERS DE CATÁLOGO: azul ropa, rosa peluches y rojo sale.
+   --color-catalogo viene de los datos de la vista seleccionada. */
+.banner-promocion {
+  height: 284px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-catalogo);
+  color: #fdf6ec;
+}
+
+.banner-promocion p {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.personaje-promo {
+  width: 174px;
+  height: 220px;
+  object-fit: contain;
+  flex: none;
+}
+
+.personaje-espejo {
+  transform: scaleX(-1);
+}
+
+.banner-peluches {
+  min-height: 284px;
+  padding: 40px 180px;
+  background: #e85d75;
+  color: #fdf6ec;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+.texto-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.texto-banner h2 {
+  font-size: 42px;
+}
+
+.texto-banner p {
+  font-size: 15px;
+}
+
+.boton-comprar {
+  width: 190px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #2e8b57;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ficha-banner {
+  width: 320px;
+  height: 180px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-radius: 14px;
+  background: #fff;
+  color: #211d1a;
+  flex: none;
+}
+
+.ficha-banner img {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+}
+
+.ficha-banner h3 {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.ficha-banner .precio {
+  font-size: 18px;
+}
+
+/* 9. TÍTULO Y GÉNERO: radios reales, estilizados como las pastillas de Figma.
+   :checked + label resalta solamente la opción seleccionada. */
+.titulo-catalogo {
+  min-height: 136px;
+  padding: 24px 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.titulo-catalogo h1 {
+  font-size: 42px;
+  margin-bottom: 6px;
+}
+
+.titulo-catalogo p {
+  font-size: 15px;
+}
+
+.selector-genero {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 10px;
+}
+
+.selector-genero input,
+.selector-tallas input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.selector-genero label {
+  width: 130px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ded7cf;
+  border-radius: 24px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.selector-genero input:checked+label {
+  background: var(--color-catalogo);
+  border-color: var(--color-catalogo);
+  color: #fdf6ec;
+}
+
+.selector-genero input:focus-visible+label,
+.selector-tallas input:focus-visible+label {
+  outline: 3px solid #2266c9;
+  outline-offset: 3px;
+}
+
+/* 10. ESTILOS DE ROPA: geometría y recortes originales dentro de cada slot.
+   Posición absoluta solo en fotografías decorativas, dentro del botón. */
+.estilos-ropa {
+  padding: 40px 70px 60px;
+  display: grid;
+  grid-template-columns: repeat(4, 260px);
+  gap: 20px;
+}
+
+.estilo-ropa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 260px;
+  height: 300px;
+  border: 0;
+  padding: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #e7dcc8;
+}
+
+.estilo-ropa img {
+  position: absolute;
+  max-width: none;
+}
+
+.estilo-ropa::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(36, 31, 28, .55);
+}
+
+.estilo-ropa span {
+  position: relative;
+  z-index: 1;
+  color: #fdf6ec;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+/* Las exportaciones de estas capas ya incluyen el recorte del slot 260×300.
+   No se aplica un segundo desplazamiento, porque recortaría la foto dos veces. */
+.estilo-ropa img {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 11. ZONA CATÁLOGO: sidebar de 220px y cuatro columnas de productos.
+   La altura mínima reproduce el espacio inferior de las pantallas finales. */
+.zona-catalogo {
+  padding: 0 80px 60px;
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+  min-height: 800px;
+}
+
+.catalogo-ropa .zona-catalogo {
+  min-height: 810px;
+}
+
+.catalogo-sale .zona-catalogo {
+  min-height: 836px;
+}
+
+.filtros-catalogo {
+  width: 220px;
+  min-height: 410px;
+  flex: none;
+  padding: 20px 18px;
+  border: 1px solid #ded7cf;
+  border-radius: 14px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.filtros-catalogo h2 {
+  font-size: 20px;
+}
+
+.filtros-catalogo select {
+  appearance: none;
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  border-radius: 6px;
+  padding: 0 12px;
+  background: #faf7f2;
+  color: #211d1a;
+  font-size: 12px;
+}
+
+.columna-productos {
+  flex: 1;
+  min-width: 0;
+}
+
+.grilla-catalogo {
+  gap: 20px 18px;
+}
+
+.grilla-catalogo .tarjeta-producto {
+  min-height: 360px;
+}
+
+.grilla-catalogo .info-producto {
+  gap: 6px;
+  padding: 8px 12px 14px;
+}
+
+.grilla-catalogo .nombre-producto {
+  font-size: 13px;
+}
+
+.grilla-catalogo .precio {
+  font-size: 17px;
+}
+
+.aviso-catalogo:not(:empty) {
+  margin: 24px 0;
+  font-size: 14px;
+}
+
+/* 12. DETALLE FINAL: foto de 600px y ficha de 580px separadas 64px.
+   minmax permite reducir ambas columnas sin romper la pantalla. */
+.detalle-principal {
+  min-height: 735px;
+  padding: 50px 80px;
+  display: grid;
+  grid-template-columns: minmax(0, 600px) minmax(0, 580px);
+  gap: 64px;
+  align-items: start;
+}
+
+.galeria-producto img {
+  border-radius: 18px;
+}
+
+.indicadores-galeria {
+  color: #2266c9;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: pre;
+  margin-top: 14px;
+}
+
+.detalle-informacion {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.etiqueta-detalle {
+  color: #fdf6ec;
+  background: #2e8b57;
+  padding: 7px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 16px;
+}
+
+.detalle-informacion h1 {
+  font-size: 48px;
+}
+
+.precio-detalle {
+  font-size: 34px;
+  font-weight: 700;
+  color: #b37d00;
+}
+
+.envio {
+  font-size: 14px;
+}
+
+.descripcion {
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.selector-tallas {
+  border: 0;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  gap: 10px;
+}
+
+.selector-tallas legend {
+  margin-bottom: 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.selector-tallas label {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ded7cf;
+  background: #fff;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.selector-tallas input:checked+label {
+  background: #2266c9;
+  color: #fdf6ec;
+  border-color: #2266c9;
+}
+
+.vendedor {
+  width: min(100%, 540px);
+  min-height: 100px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border: 1px solid #ded7cf;
+  border-radius: 14px;
+}
+
+.vendedor img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+}
+
+.vendedor h2 {
+  font: 700 14px Inter, sans-serif;
+  margin-bottom: 4px;
+}
+
+.vendedor p {
+  font-size: 12px;
+}
+
+.acciones-detalle {
+  display: flex;
+  width: min(100%, 540px);
+  gap: 12px;
+}
+
+.acciones-detalle button {
+  min-height: 52px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.boton-contactar {
+  width: 180px;
+  border: 1px solid #2266c9;
+  background: transparent;
+  color: #211d1a;
+}
+
+.boton-carrito {
+  flex: 1;
+  border: 1px solid #2266c9;
+  background: #2266c9;
+  color: #fdf6ec;
+}
+
+/* 13. RESEÑAS: tres tarjetas blancas del producto final. */
+.resenas {
+  min-height: 460px;
+  padding: 40px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.resenas>h2 {
+  font-size: 34px;
+}
+
+.lista-resenas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 400px));
+  gap: 20px;
+}
+
+.tarjeta-resena {
+  min-height: 150px;
+  border: 1px solid #ded7cf;
+  border-radius: 14px;
+  background: #fff;
+  padding: 18px 20px;
+}
+
+.tarjeta-resena h3 {
+  font-size: 13px;
+  white-space: pre-wrap;
+  margin-bottom: 14px;
+}
+
+.tarjeta-resena p {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.producto-no-encontrado {
+  margin: 60px 80px;
+}
+
+/* Aviso temporal de interacción: oculto en el estado inicial del diseño. */
+.mensaje-interaccion {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(90%, 600px);
+  padding: 16px 20px;
+  background: #211d1a;
+  color: #fff;
+  border-radius: 12px;
+  z-index: 10;
+  font-size: 14px;
+}
+
+/* 14. RESPONSIVE: a partir de 1199 se adapta el desktop; no se cambia su
+   diseño a 1440px. Las media queries alteran columnas, espacios y navegación. */
+@media (max-width:1199px) {
+  .encabezado {
+    padding: 0 32px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .navegacion {
+    gap: 20px;
+  }
+
+  .acciones-header {
+    width: auto;
+  }
+
+  .hero-home {
+    padding-left: 64px;
+    padding-right: 64px;
+  }
+
+  .seccion-home,
+  .pie-pagina,
+  .titulo-catalogo,
+  .zona-catalogo,
+  .resenas {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .banner-peluches {
+    padding-left: 70px;
+    padding-right: 70px;
+  }
+
+  .estilos-ropa {
+    padding-left: 40px;
+    padding-right: 40px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .estilo-ropa {
+    width: 100%;
+    height: 260px;
+  }
+
+  .grilla-catalogo {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .grilla-home .tarjeta-producto {
+    min-height: 0;
+  }
+
+  .seccion-home {
+    min-height: 0;
+    padding-bottom: 70px;
+  }
+
+  .detalle-principal {
+    padding: 40px;
+    gap: 36px;
+  }
+
+  .detalle-informacion h1 {
+    font-size: 40px;
+  }
+}
+
+@media (max-width:1000px) {
+  .boton-menu {
+    display: block;
+    background: #fff;
+    border: 1px solid #ded7cf;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .encabezado {
+    min-height: 80px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  .navegacion {
+    display: none;
+    order: 4;
+    width: 100%;
+    flex-wrap: wrap;
+    padding: 12px 0;
+  }
+
+  .navegacion.abierta {
+    display: flex;
+  }
+
+  .acciones-header button {
+    width: auto !important;
+    padding: 0 8px;
+  }
+
+  .grilla-home {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .zona-catalogo {
+    gap: 20px;
+  }
+
+  .filtros-catalogo {
+    width: 180px;
+  }
+
+  .grilla-catalogo {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .banner-peluches {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .texto-banner h2 {
+    font-size: 36px;
+  }
+
+  .personaje-promo {
+    width: 130px;
+    height: 170px;
+  }
+
+  .banner-promocion p {
+    font-size: 23px;
+    text-align: center;
+  }
+
+  .pie-pagina {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width:768px) {
+  .hero-home {
+    min-height: 390px;
+    padding: 60px 24px 40px;
+  }
+
+  .hero-home h1 {
+    font-size: 48px;
+    line-height: 48px;
+  }
+
+  .hero-home>p:not(.presentacion) {
+    max-width: 390px;
+    line-height: 24px;
+  }
+
+  .seccion-home,
+  .pie-pagina,
+  .titulo-catalogo,
+  .zona-catalogo,
+  .resenas {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .titulo-seccion {
+    font-size: 30px;
+  }
+
+  .titulo-catalogo {
+    flex-wrap: wrap;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  .titulo-catalogo h1 {
+    font-size: 36px;
+  }
+
+  .banner-peluches {
+    flex-direction: column;
+    padding: 32px 24px;
+    align-items: flex-start;
+  }
+
+  .ficha-banner {
+    align-self: center;
+  }
+
+  .banner-promocion {
+    height: 220px;
+    padding: 0 16px;
+  }
+
+  .banner-promocion p {
+    font-size: 18px;
+  }
+
+  .personaje-promo {
+    width: 90px;
+    height: 130px;
+  }
+
+  .estilos-ropa {
+    padding: 20px 24px 32px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .estilo-ropa {
+    height: 230px;
+  }
+
+  .zona-catalogo {
+    flex-direction: column;
+    min-height: 0 !important;
+  }
+
+  .filtros-catalogo {
+    width: 100%;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .filtros-catalogo h2 {
+    grid-column: 1 / -1;
+  }
+
+  .columna-productos {
+    width: 100%;
+  }
+
+  .grilla-catalogo .tarjeta-producto {
+    min-height: 0;
+  }
+
+  .detalle-principal {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+    padding: 32px 24px;
+  }
+
+  .detalle-informacion h1 {
+    font-size: 38px;
+  }
+
+  .lista-resenas {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .resenas {
+    min-height: 0;
+    padding-bottom: 60px;
+  }
+}
+
+@media (max-width:480px) {
+  .encabezado {
+    padding-left: 16px;
+    padding-right: 16px;
+    gap: 8px;
+  }
+
+  .encabezado .logo {
+    font-size: 24px;
+  }
+
+  .acciones-header {
+    width: 100%;
+    justify-content: flex-end;
+    order: 3;
+  }
+
+  .acciones-header button {
+    height: 32px;
+  }
+
+  .grilla-home,
+  .grilla-catalogo {
+    gap: 16px 12px;
+  }
+
+  .info-producto {
+    padding: 8px 10px 12px;
+  }
+
+  .nombre-producto {
+    font-size: 12px;
+  }
+
+  .precio {
+    font-size: 16px;
+  }
+
+  .seccion-home,
+  .zona-catalogo {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .titulo-seccion {
+    font-size: 27px;
+  }
+
+  .personaje-promo {
+    width: 62px;
+    height: 95px;
+  }
+
+  .banner-promocion p {
+    font-size: 16px;
+  }
+
+  .ficha-banner {
+    width: min(100%, 320px);
+  }
+
+  .selector-genero label {
+    width: 110px;
+  }
+
+  .pie-pagina {
+    gap: 32px 20px;
+  }
+
+  .pie-pagina>div {
+    grid-column: 1 / -1;
+  }
+
+  .estilo-ropa span {
+    font-size: 25px;
+  }
+
+  .acciones-detalle {
+    flex-direction: column;
+  }
+
+  .acciones-detalle button {
+    width: 100%;
+  }
+}
+
+@media (max-width:359px) {
+
+  .grilla-home,
+  .grilla-catalogo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero-home h1 {
+    font-size: 40px;
+    line-height: 42px;
+  }
+}
+
+/* Foto todavía no adjunta: espacio cuadrado sin imágenes falsas. */
+.imagen-pendiente {
+  order: -1;
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eee8df;
+  color: #555;
+}
+
+/* Fotos de anuncios: botones simples debajo de la portada. */
+.controles-fotos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.controles-fotos button {
+  padding: 8px 12px;
+  border: 1px solid #ded7cf;
+  border-radius: 8px;
+  background: #fff;
+}
