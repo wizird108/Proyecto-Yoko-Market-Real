@@ -89,3 +89,152 @@
 .catalogo-accesorios .banner-peluches {
   background: var(--color-catalogo);
 }
+
+/* 5. BOTÓN "LIMPIAR FILTROS" DEL CATÁLOGO
+   En el original se veía como el botón gris del navegador: su clase
+   (.boton-texto) está en sistema.css, que no se carga en los catálogos.
+   Ahora tiene el mismo estilo que los botones HOMBRE / MUJER:
+   píldora blanca con borde suave, y al pasar el mouse toma el color
+   del catálogo (--color-catalogo: azul, rosado, dorado o rojo). */
+.filtros-catalogo .boton-texto {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid #ded7cf;
+  border-radius: 24px;
+  background: #fff;
+  color: #211d1a;
+  font-size: 12px;
+  font-weight: 700;
+  /* transition: el cambio de color al pasar el mouse es suave */
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.filtros-catalogo .boton-texto:hover {
+  background: var(--color-catalogo);
+  border-color: var(--color-catalogo);
+  color: #fdf6ec;
+}
+
+/* En pantallas pequeñas los filtros van en 2 columnas:
+   el botón ocupa la fila completa (de la primera a la última columna). */
+@media (max-width: 768px) {
+  .filtros-catalogo .boton-texto {
+    grid-column: 1 / -1;
+  }
+}
+
+/* 6. RESEÑAS: BOTÓN Y FORMULARIO PARA ESCRIBIR (función nueva)
+   Mismos colores, bordes y tamaños que los botones CONTACTAR y
+   AÑADIR AL CARRITO del detalle (style.css). */
+
+/* Botón con borde azul: ESCRIBIR RESEÑA y CANCELAR (como CONTACTAR). */
+.boton-resena {
+  align-self: flex-start;
+  min-height: 52px;
+  padding: 0 28px;
+  border: 1px solid #2266c9;
+  border-radius: 12px;
+  background: transparent;
+  color: #211d1a;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Botón azul lleno: PUBLICAR (como AÑADIR AL CARRITO). */
+.boton-publicar-resena {
+  min-height: 52px;
+  padding: 0 36px;
+  border: 1px solid #2266c9;
+  border-radius: 12px;
+  background: #2266c9;
+  color: #fdf6ec;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Tarjeta blanca del formulario (como las tarjetas de reseña). */
+.form-resena {
+  width: min(100%, 620px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid #ded7cf;
+  border-radius: 14px;
+  background: #fff;
+}
+
+/* Textos pequeños: "Escribiendo como..." e "Inicia sesión...". */
+.nota-resena {
+  font-size: 13px;
+  color: #555;
+}
+
+.nota-resena a {
+  color: #2266c9;
+  font-weight: 700;
+}
+
+/* Estrellas: sin borde de fieldset; las elegidas en dorado (color de precios). */
+.estrellas-resena {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 4px;
+}
+
+.estrellas-resena legend {
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.estrellas-resena button {
+  border: 0;
+  padding: 0 2px;
+  background: transparent;
+  font-size: 30px;
+  line-height: 1;
+  color: #ded7cf;
+}
+
+.estrellas-resena button.activa {
+  color: #b37d00;
+}
+
+/* Campo de texto (mismo fondo crema que los filtros del catálogo). */
+.form-resena textarea {
+  min-height: 110px;
+  padding: 14px;
+  border: 1px solid #ded7cf;
+  border-radius: 10px;
+  background: #faf7f2;
+  font: inherit;
+  font-size: 13px;
+  color: #211d1a;
+  resize: vertical;
+}
+
+.acciones-resena {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.error-resena {
+  color: #a52820;
+  font-size: 13px;
+}
+
+.error-resena:empty {
+  display: none;
+}
+
+/* En celular, los botones del formulario ocupan todo el ancho. */
+@media (max-width: 480px) {
+  .acciones-resena button,
+  .boton-resena {
+    width: 100%;
+  }
+}

@@ -6,13 +6,14 @@
 
 import { Link } from 'react-router'
 
-/* Redes sociales. En el original solo mostraban un aviso; ahora
-   abren el perfil en otra pestaña (la rúbrica pide que todos los
-   botones funcionen). Si un enlace cambia, se corrige solo aquí. */
+/* Redes sociales oficiales de Álvaro Díaz (las mismas que enlaza su
+   tienda oficial, shop.alvarodiaz.com). En el original solo mostraban
+   un aviso; ahora abren el perfil en otra pestaña (la rúbrica pide que
+   todos los botones funcionen). Si un enlace cambia, se corrige aquí. */
 const redes = [
-  { texto: 'Instagram', url: 'https://www.instagram.com/alvarodiaz/' },
-  { texto: 'TikTok', url: 'https://www.tiktok.com/@alvarodiaz' },
-  { texto: 'X / Twitter', url: 'https://x.com/alvarodiaz' },
+  { texto: 'Instagram', url: 'https://www.instagram.com/alvaritodiaz/' },
+  { texto: 'TikTok', url: 'https://www.tiktok.com/@alvaritodiaz' },
+  { texto: 'X / Twitter', url: 'https://x.com/yoAlvaroDiaz' },
 ]
 
 /* Igual que el Header, recibe onAccion para avisar al layout
