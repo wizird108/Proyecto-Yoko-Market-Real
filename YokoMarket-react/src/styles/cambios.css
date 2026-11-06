@@ -1,0 +1,91 @@
+/* =========================================================
+   cambios.css — CAMBIOS DE DISEÑO RESPECTO AL ORIGINAL
+   Los otros tres CSS son copia del proyecto original. Aquí
+   van SOLO los cambios que decidimos hacer en la versión React,
+   para que sea fácil ver y explicar qué es nuevo.
+   Se carga de último (ver main.tsx).
+   ========================================================= */
+
+/* 1. HEADER Y FOOTER A TODO EL ANCHO EN PANTALLAS GRANDES
+   En el original, el body tenía max-width: 1440px. En pantallas
+   más anchas toda la página quedaba en una columna centrada y el
+   header y el footer dejaban espacios vacíos a los lados.
+
+   Solo aplica a más de 1440px (@media), así que en pantallas
+   normales, tablets y celulares todo sigue igual que el original. */
+@media (min-width: 1441px) {
+  /* El body ya no se limita a 1440px... */
+  body {
+    max-width: none;
+  }
+
+  /* ...pero el contenido de cada página sí, igual que antes. */
+  #contenido {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  /* El fondo del header y del footer ocupa todo el ancho, y su
+     contenido se alinea con el resto de la página:
+     (100% - 1440px) / 2 es el espacio que sobra a cada lado,
+     y le sumamos el padding original (64px header, 80px footer). */
+  .encabezado {
+    padding-left: calc((100% - 1440px) / 2 + 64px);
+    padding-right: calc((100% - 1440px) / 2 + 64px);
+  }
+
+  .pie-pagina {
+    padding-left: calc((100% - 1440px) / 2 + 80px);
+    padding-right: calc((100% - 1440px) / 2 + 80px);
+  }
+
+  /* 2. BANNER DEL INICIO A TODO EL ANCHO (y los de catálogos, punto 3)
+     El banner está dentro del contenido (que mide 1440px), así que
+     lo "sacamos" hacia los lados con márgenes negativos:
+       100vw = ancho de toda la ventana
+       (1440px - 100vw) / 2 = cuánto sobresale a cada lado (negativo)
+     y le devolvemos ese espacio como padding para que el texto y el
+     botón queden en el mismo lugar (96px es el padding original). */
+  .hero-home {
+    margin-left: calc((1440px - 100vw) / 2);
+    margin-right: calc((1440px - 100vw) / 2);
+    padding-left: calc((100vw - 1440px) / 2 + 96px);
+    padding-right: calc((100vw - 1440px) / 2 + 96px);
+  }
+
+  /* 3. BANNERS DE LOS CATÁLOGOS A TODO EL ANCHO
+     Mismo truco que el banner del inicio.
+     - .banner-promocion (ropa y sale) centra su contenido, así que
+       solo hace falta estirarlo.
+     - .banner-peluches tiene padding de 180px a los lados. */
+  .banner-promocion,
+  .banner-peluches {
+    margin-left: calc((1440px - 100vw) / 2);
+    margin-right: calc((1440px - 100vw) / 2);
+  }
+
+  .banner-peluches {
+    padding-left: calc((100vw - 1440px) / 2 + 180px);
+    padding-right: calc((100vw - 1440px) / 2 + 180px);
+  }
+
+  /* 100vw incluye la barra de desplazamiento del navegador, así que
+     el banner puede pasarse unos píxeles. "clip" recorta ese sobrante
+     para que no aparezca una barra horizontal. */
+  body {
+    overflow-x: clip;
+  }
+}
+
+/* 4. BANNER "FAVORITO" EN VINILOS Y ACCESORIOS
+   En el original solo peluches tenía este banner (rosado, #e85d75).
+   Ahora vinilos y accesorios también lo tienen (ver Catalogo.tsx).
+   El color sale de la variable --color-catalogo de cada categoría
+   (definida en CATALOGOS, data/productos.ts):
+     vinilos    → azul   #2266c9
+     accesorios → dorado #b37d00 (también cambia sus botones HOMBRE/MUJER)
+   Peluches no se toca: sigue con su rosado original. */
+.catalogo-vinilos .banner-peluches,
+.catalogo-accesorios .banner-peluches {
+  background: var(--color-catalogo);
+}
