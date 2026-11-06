@@ -43,7 +43,7 @@ function ProductCard({ producto }: ProductCardProps) {
       </Link>
 
       {/* El corazón va fuera del enlace para que al pulsarlo no abra el detalle. */}
-      <BotonFavorito />
+      <BotonFavorito productoId={producto.id} />
     </article>
   )
 }

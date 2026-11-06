@@ -18,6 +18,7 @@ import { useOutletContext, useParams } from 'react-router'
 
 import BotonFavorito from '../../components/BotonFavorito'
 import ImagenProducto from '../../components/ImagenProducto'
+import { useCarrito } from '../../context/CarritoContext'
 import { buscarProducto } from '../../data/productos'
 import useTitulo from '../../hooks/useTitulo'
 import type { ContextoMain } from '../../layout/Main/Main'
@@ -40,7 +41,8 @@ interface DetalleProductoProps {
 function DetalleProducto({ id }: DetalleProductoProps) {
   const producto = buscarProducto(id)
 
-  const { mostrarMensaje } = useOutletContext<ContextoMain>()
+  const { mostrarMensaje, abrirBolsa } = useOutletContext<ContextoMain>()
+  const { agregar } = useCarrito()
 
   useTitulo(producto ? producto.nombre + ' | YokoMarket' : 'Producto no encontrado | YokoMarket')
 
@@ -62,16 +64,17 @@ function DetalleProducto({ id }: DetalleProductoProps) {
     )
   }
 
-  /* Botón AÑADIR AL CARRITO.
-     1. Si el producto tiene tallas, hay que elegir una (igual que el original).
-     2. El carrito y su panel son parte de mi compañero: él reemplaza el
-        aviso por agregar el producto al contexto del carrito y abrir la bolsa. */
+  /* Botón AÑADIR AL CARRITO (igual que el original):
+     1. Si el producto tiene tallas, hay que elegir una.
+     2. Se agrega a la bolsa (contexto global) y se abre el panel de la bolsa. */
   function anadirAlCarrito() {
-    if (producto && producto.tallas.length > 0 && !producto.tallas.includes(tallaElegida)) {
+    if (!producto) return
+    if (producto.tallas.length > 0 && !producto.tallas.includes(tallaElegida)) {
       mostrarMensaje('Selecciona una talla antes de añadir el producto.')
       return
     }
-    mostrarMensaje('Esta sección todavía no forma parte de la entrega.')
+    agregar(producto.id, tallaElegida || null) // sin tallas → null
+    abrirBolsa()
   }
 
   return (
@@ -133,7 +136,7 @@ function DetalleProducto({ id }: DetalleProductoProps) {
 
           {/* ---------- 4. BOTONES ---------- */}
           <div className="acciones-detalle">
-            <BotonFavorito />
+            <BotonFavorito productoId={producto.id} />
             <button className="boton-contactar" type="button" onClick={contactar}>
               CONTACTAR
             </button>
