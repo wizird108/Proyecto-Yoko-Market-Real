@@ -10,7 +10,7 @@
         vendedor y descripción.
      3. Tallas (si el producto tiene).
      4. Botones: favorito, CONTACTAR y AÑADIR AL CARRITO.
-     5. Reseñas.
+     5. Reseñas (componente SeccionResenas).
    ========================================================= */
 
 import { Fragment, useState } from 'react'
@@ -18,6 +18,7 @@ import { useOutletContext, useParams } from 'react-router'
 
 import BotonFavorito from '../../components/BotonFavorito'
 import ImagenProducto from '../../components/ImagenProducto'
+import SeccionResenas from '../../components/SeccionResenas'
 import { useCarrito } from '../../context/CarritoContext'
 import { buscarProducto } from '../../data/productos'
 import useTitulo from '../../hooks/useTitulo'
@@ -147,21 +148,10 @@ function DetalleProducto({ id }: DetalleProductoProps) {
         </div>
       </section>
 
-      {/* ---------- 5. RESEÑAS ---------- */}
-      <section className="resenas">
-        <h2>COMENTARIOS Y RESEÑAS</h2>
-        <div className="lista-resenas">
-          {producto.resenas.map((resena, indice) => (
-            <article key={indice} className="tarjeta-resena">
-              <h3>
-                {resena.autor} · {resena.estrellas}
-              </h3>
-              <p>{resena.texto}</p>
-            </article>
-          ))}
-          {producto.resenas.length === 0 && <p>Este producto aún no tiene reseñas.</p>}
-        </div>
-      </section>
+      {/* ---------- 5. RESEÑAS ----------
+          En su propio componente: lista + formulario para escribir una
+          reseña (solo con sesión iniciada). */}
+      <SeccionResenas producto={producto} />
     </>
   )
 }

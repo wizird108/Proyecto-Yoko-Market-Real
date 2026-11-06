@@ -38,11 +38,7 @@ export interface Producto {
   usuarioId?: string // id de la cuenta que publicó
 }
 
-/* 2. DATOS BASE (precios en USD, como en la tienda oficial).
-   Nota: en el original cada producto apuntaba a una foto
-   (omakase-tracklist-tee.jpg...), pero esos archivos nunca se
-   agregaron al proyecto, así que todos mostraban la foto pendiente.
-   Por eso aquí no ponemos "imagen". */
+/* 2. DATOS BASE (precios en USD, como en la tienda oficial). */
 const productosBase = [
   { id: 1, nombre: 'Omakase Tracklist Tee', precio: 45.0, categoria: 'ropa', preventa: true },
   { id: 2, nombre: 'No Podemos Ser Amigos Baby Tee', precio: 40.0, categoria: 'ropa', preventa: true },
@@ -57,6 +53,30 @@ const productosBase = [
   { id: 11, nombre: 'Te Lo Dejo a Ti Black Zip-Up Hoodie', precio: 85.0, categoria: 'ropa', preventa: false },
   { id: 12, nombre: 'OMAKASE Logo Chef Apron', precio: 30.0, categoria: 'accesorios', preventa: false },
 ]
+
+/* FOTOS DE LOS PRODUCTOS
+   Son las fotos oficiales de shop.alvarodiaz.com. No están dentro del
+   proyecto: el navegador las carga directamente desde la tienda.
+   (En el original los archivos .jpg nunca se agregaron, por eso
+   todas las tarjetas mostraban "Imagen pendiente".)
+   Si una foto no carga, ImagenProducto muestra "Imagen pendiente". */
+const TIENDA = 'https://shop.alvarodiaz.com/cdn/shop/files/'
+
+/* id del producto → nombre del archivo en la tienda */
+const fotosOficiales: Record<number, string> = {
+  1: '1_1.png?v=1787682956',
+  2: 'PRODUCT_AD_26_ECOMM_OMAKASEBABYTEE_FRONT.png?v=1787682750',
+  3: '1_92973dc1-1bd6-428d-ae74-9aab15df5483.png?v=1787681545',
+  4: 'PRODUCT_AD_26_ECOMM_OMAKASEBIKINITOP.png?v=1787681767',
+  5: 'PRODUCT_AD_26_ECOMM_OMAKASEBRALETTE.png?v=1787682444',
+  6: '11.png?v=1780520818',
+  7: '562BB7BE-1EAF-4D7F-A7DA-2BA3F2288ED9.png?v=1779402519',
+  8: '1.png?v=1778874302',
+  9: 'fanpackapron.png?v=1779132190',
+  10: 'Untitled_1000x1000px_4.png?v=1778795750',
+  11: '9.png?v=1778771760',
+  12: 'apron.png?v=1779132044',
+}
 
 /* Conversión fija para el ejercicio, NO una tasa de cambio real. */
 const CAMBIO_DE_PRUEBA = 4000
@@ -76,6 +96,8 @@ export const productos: Producto[] = productosBase.map((base) => {
 
   return {
     ...base, // "spread": copia id, nombre, categoria y preventa
+    // &width=600: le pedimos a la tienda la foto en un tamaño menor (carga más rápido)
+    imagen: TIENDA + fotosOficiales[base.id] + '&width=600',
     oficial: true,
     oferta: enOferta,
     precioAnterior: enOferta ? precioCOP : null,
